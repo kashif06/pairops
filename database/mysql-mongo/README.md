@@ -24,11 +24,10 @@
 
 | MySQL                                   | MongoDB                             |
 |-----------------------------------------|-------------------------------------|
-| `CREATE TABLE customers (`              | `db.createCollection('customers');` |
-|  `id INT UNSIGNED PRIMARY KEY`          |                                     | 
-|   `AUTO_INCREMENT,`                     |                                     |
-| `first_name VARCHAR(50) NOT NULL,`                                         |                                     |
-|  `last_name VARCHAR(50) NOT NULL,`                                         |                                     |
-|   `email VARCHAR(100) NOT NULL,`                                         |                                     |
-|   `created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP`                        |                                     |
-| `); `                                
+| CREATE TABLE customers(id INT UNSIGNED  | `db.createCollection('customers');` |
+| PRIMARY KEY AUTO_INCREMENT,             |                                     |
+| first_name VARCHAR(50) NOT NULL,        |                                     |
+| last_name VARCHAR(50) NOT NULL,         |                                     |
+| email VARCHAR(100) NOT NULL,            |                                     |
+| created_at TIMESTAMP DEFAULT            |                                     |
+| CURRENT_TIMESTAMP);                     |                                     |
