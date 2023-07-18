@@ -66,8 +66,7 @@
 
 - MySQL
   - `Select email from customers;`
-  - `SELECT product_name FROM products;`
-  - `Select email from customers;`
+  - `SELECT product_name, price FROM products;`
 - MongoDB
   - `db.customers.find({}, { email: 1 });`
   - `db.customers.find({}, { email: 1, _id: 0 });`
@@ -76,7 +75,44 @@
 ## COUNT
 
 - MySQL
-  - `SELECT COUNT(*) first_name FROM customers;`
+  - `SELECT COUNT(*) FROM customers;`
+- MongoDB
+  - `db.customers.countDocuments()`
+
+## SORT
+
+- MySQL
+  - `SELECT * FROM orders ORDER BY quantity;`
+  - `SELECT * FROM orders ORDER BY quantity DESC;`
 - MongoDB
   - `db.orders.find({}).sort({'quantity': 1})`
   - `db.orders.find({}).sort({'quantity': -1})`
+
+## LIMIT
+
+- MySQL
+  - `SELECT * FROM customers LIMIT 1;`
+  - `SELECT * FROM products LIMIT 1;`
+  - `SELECT * FROM customers LIMIT 2,1;`
+- MongoDB
+  - `db.customers.find({}).limit(1)`
+  - `db.products.find({}).limit(1)`
+  - `db.customers.find({}).skip(2).limit(1)`
+
+## LAST RECORD
+
+- MySQL
+  - `SELECT * FROM customers ORDER BY id DESC LIMIT 1;`
+- MongoDB
+  - `db.customers.find().sort({_id:-1}).limit(1)`
+
+## WHERE
+
+- MySQL
+  - `SELECT * FROM customers WHERE first_name = 'John'`
+  - `SELECT * FROM products WHERE price > 10000`
+  - `SELECT * FROM orders WHERE quantity > 2`
+- MongoDB
+  - `db.customers.find({ first_name: 'John'})`
+  - `db.products.find({ price:{$gt:10000} })`
+  - `db.orders.find({quantity: {$gt : 2} })`
