@@ -110,29 +110,49 @@
 
 - MySQL
   - `SELECT * FROM customers WHERE first_name = 'John'`
-  - `SELECT * FROM products WHERE price > 10000`
+  - `SELECT * FROM products WHERE price > 100`
   - `SELECT * FROM orders WHERE quantity > 2`
 - MongoDB
   - `db.customers.find({ first_name: 'John'})`
-  - `db.products.find({ price:{$gt:10000} })`
+  - `db.products.find({ price:{$gt:100} })`
   - `db.orders.find({quantity: {$gt : 2} })`
 
 ## LIKE
 
 - MySQL
-  - `SELECT * FROM products WHERE product_name LIKE '%Cheese%';`
-  - `SELECT * FROM products WHERE product_name LIKE 'Soup%';`
-  - `SELECT * FROM products WHERE product_name LIKE '%Fish';`
+  - `SELECT * FROM products WHERE product_name LIKE '%Mini%';`
+  - `SELECT * FROM products WHERE product_name LIKE 'Smart%';;`
+  - `SELECT * FROM products WHERE product_name LIKE '%Charger';`
+  - `SELECT * FROM customers WHERE email LIKE '%@vimeo.com'`
 - MongoDB
-  - `db.products.find({product_name:{ $regex: 'Cheese' } })`
-  - `db.products.find({product_name:{ $regex: '^Soup' } })`
-  - `db.products.find({product_name:{ $regex: 'Fish$' } })`
+  - `db.products.find({product_name:{ $regex: /Mini/ } })`
+  - `db.products.find({product_name:{ $regex: /^Smart/ } })`
+  - `db.products.find({product_name:{ $regex: /Charger$/ } })`
+  - `db.customers.find({ email: { $regex: /@vimeo.com$/ } })`
 
 ## AND and OR
 
 - MySQL
-  - `SELECT * FROM products WHERE product_name LIKE '%Cheese%' AND price > 1000`
-  - `SELECT * FROM products WHERE product_name LIKE '%Cheese%' OR price > 1000`
+  - `SELECT * FROM products WHERE product_name LIKE '%Mini%' AND price > 100`
+  - `SELECT * FROM products WHERE product_name LIKE '%Mini%' OR price > 100`
 - MongoDB
-  - `db.products.find({$and: [ {product_name: {$regex: /Cheese/} }, {price: {$gt:1000} } ] })`
-  - `db.products.find({$or: [ {product_name: {$regex: /Cheese/} }, {price: {$gt:1000} } ] })`
+  - `db.products.find({$and: [ {product_name: {$regex: /Mini/} }, {price: {$gt:100} } ] })`
+  - `db.products.find({$or: [ {product_name: {$regex: /Mini/} }, {price: {$gt:100} } ] })`
+
+## DELETE RECORD
+
+- MySQL
+  - `DELETE FROM customers WHERE id = 200;`
+  - `DELETE FROM customers WHERE email LIKE '%@vimeo.com'`
+- MongoDB
+  - `db.customers.deleteOne({"_id" : ObjectId("64b6250edd9809f1c0e52ff2")})`
+  - `db.customers.deleteMany({email: {$regex: /@vimeo.com$/} })`
+
+## UPDATE RECORD
+
+- MySQL
+  - `UPDATE products SET price = 100 WHERE id = 28;`
+  - `UPDATE products SET price = 59 WHERE product_name LIKE '%Earphone%';`
+- MongoDB
+  - `db.products.updateOne({"_id" : ObjectId("64b78b0fdd9809f1c0e533fd")}, { $set: {price: 100}} )`
+  - `db.products.updateMany({ product_name: {$regex: /Earphone/} }, { $set: {price: 59} })`
