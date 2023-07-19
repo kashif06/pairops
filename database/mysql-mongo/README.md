@@ -116,3 +116,23 @@
   - `db.customers.find({ first_name: 'John'})`
   - `db.products.find({ price:{$gt:10000} })`
   - `db.orders.find({quantity: {$gt : 2} })`
+
+## LIKE
+
+- MySQL
+  - `SELECT * FROM products WHERE product_name LIKE '%Cheese%';`
+  - `SELECT * FROM products WHERE product_name LIKE 'Soup%';`
+  - `SELECT * FROM products WHERE product_name LIKE '%Fish';`
+- MongoDB
+  - `db.products.find({product_name:{ $regex: 'Cheese' } })`
+  - `db.products.find({product_name:{ $regex: '^Soup' } })`
+  - `db.products.find({product_name:{ $regex: 'Fish$' } })`
+
+## AND and OR
+
+- MySQL
+  - `SELECT * FROM products WHERE product_name LIKE '%Cheese%' AND price > 1000`
+  - `SELECT * FROM products WHERE product_name LIKE '%Cheese%' OR price > 1000`
+- MongoDB
+  - `db.products.find({$and: [ {product_name: {$regex: /Cheese/} }, {price: {$gt:1000} } ] })`
+  - `db.products.find({$or: [ {product_name: {$regex: /Cheese/} }, {price: {$gt:1000} } ] })`

@@ -1,0 +1,1 @@
+INSERT INTO orders(`customer_id`, `product_id`, `quantity`) VALUES(10,14,10),(20,26,4),(30,32,11);
