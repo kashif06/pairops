@@ -3,21 +3,13 @@
 
 
 <details>
-<summary><strong>CREATE DATABASE</strong></summary>
+<summary><strong> [CREATE DATABASE] (#create-database)</strong></summary>
 
 - MySQL
   - `CREATE DATABASE ecommerce;`
 - MongoDB
   - `Use ecommerce`
-
 </details>
-
-## CREATE DATABASE
-
-- MySQL
-  - `CREATE DATABASE ecommerce;`
-- MongoDB
-  - `Use ecommerce`
 
 ## Use DATABASE
 
