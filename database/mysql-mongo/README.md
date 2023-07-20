@@ -1,9 +1,7 @@
 # MySQL vs MongoDB: Practical Comparison
 
-
-
 <details>
-<summary><strong> [CREATE DATABASE] (#create-database)</strong></summary>
+  <summary><strong>Create Database</strong></summary>
 
 - MySQL
   - `CREATE DATABASE ecommerce;`
@@ -11,21 +9,26 @@
   - `Use ecommerce`
 </details>
 
-## Use DATABASE
+<details>
+  <summary><strong>Use Database</strong></summary>
 
 - MySQL
   - `Use ecommerce;`
 - MongoDB
   - `Use ecommerce`
+</details>
 
-## DROP DATABASE
+<details>
+  <summary><strong>Drop Database</strong></summary>
 
 - MySQL
   - `DROP DATABASE ecommerce;`
 - MongoDB
   - `db.dropDatabase()`
+</details>
 
-## CREATE TABLE
+<details>
+  <summary><strong>Create Table</strong></summary>
 
 - MySQL
   - `CREATE TABLE customers(id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, first_name VARCHAR(50) NOT NULL, last_name VARCHAR(50) NOT NULL, email VARCHAR(100) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`
@@ -36,22 +39,28 @@
   - `db.createCollection('customers')`
   - `db.createCollection('products')`
   - `db.createCollection('orders'')`
+</details>
 
-## DROP TABLE
+<details>
+  <summary><strong>Drop Table</strong></summary>
 
 - MySQL
   - `DROP TABLE customers;`
 - MongoDB
-  - `db.customers.drop();`  
+  - `db.customers.drop();` 
+</details>
 
-## SELECT DATA
+<details>
+  <summary><strong>Select Data</strong></summary>
 
 - MySQL
   - `SELECT * FROM customers;`
 - MongoDB
   - `db.customers.find({});` 
+</details>
 
-## INSERT DATA
+<details>
+  <summary><strong>Insert Data</strong></summary>
 
 - MySQL
   - `INSERT INTO customers(first_name, last_name, email) VALUES('John', 'Doe', 'john.doe@gmail.com');`
@@ -65,8 +74,10 @@
   - `db.getCollection("customers").insert([{"first_name": "John","last_name":"Doe","email":"john.doe@gmail.com", 'created_at': new Date()},{"first_name": "Adam","last_name":"Smith","email":"adam.smith@gmail.com", 'created_at': new Date()},])`
   - `db.getCollection("products").insert([{"product_name": "Laptop","price":12000,"description":"Apple laptop", 'created_at': new Date()},{"name": "Chair","price":7000,"description":"office Chair", 'created_at': new Date()}])`
   - `db.getCollection('orders').insert([{ "customer_id":ObjectId("64af9a0a55296e840ec237a5"), "product_id": ObjectId("64afc0b755296e840ec237a7"),"quantity":2, 'created_at':new Date() },{ "customer_id":ObjectId("64af9a0a55296e840ec237a5"), "product_id": ObjectId("64afc0b755296e840ec237a8"),"quantity":4, 'created_at':new Date() },{ "customer_id":ObjectId("64af9a0a55296e840ec237a6"), "product_id": ObjectId("64afc0b755296e840ec237a8"),"quantity":1, 'created_at':new Date() }])`
+</details>
 
-## SELECT Specific Columns
+<details>
+  <summary><strong>Select Columns</strong></summary>
 
 - MySQL
   - `Select email from customers;`
@@ -75,15 +86,19 @@
   - `db.customers.find({}, { email: 1 });`
   - `db.customers.find({}, { email: 1, _id: 0 });`
   - `db.products.find({},{product_name:1, price:1, _id: 0})`
+</details>
 
-## COUNT
+<details>
+  <summary><strong>Count</strong></summary>
 
 - MySQL
   - `SELECT COUNT(*) FROM customers;`
 - MongoDB
   - `db.customers.countDocuments()`
+</details>
 
-## SORT
+<details>
+  <summary><strong>Sort</strong></summary>
 
 - MySQL
   - `SELECT * FROM orders ORDER BY quantity;`
@@ -91,8 +106,10 @@
 - MongoDB
   - `db.orders.find({}).sort({'quantity': 1})`
   - `db.orders.find({}).sort({'quantity': -1})`
+</details>
 
-## LIMIT
+<details>
+  <summary><strong>Limit</strong></summary>
 
 - MySQL
   - `SELECT * FROM customers LIMIT 1;`
@@ -102,15 +119,19 @@
   - `db.customers.find({}).limit(1)`
   - `db.products.find({}).limit(1)`
   - `db.customers.find({}).skip(2).limit(1)`
+</details>
 
-## LAST RECORD
+<details>
+  <summary><strong>Last Record</strong></summary>
 
 - MySQL
   - `SELECT * FROM customers ORDER BY id DESC LIMIT 1;`
 - MongoDB
   - `db.customers.find().sort({_id:-1}).limit(1)`
+</details>
 
-## WHERE
+<details>
+  <summary><strong>Where</strong></summary>
 
 - MySQL
   - `SELECT * FROM customers WHERE first_name = 'John'`
@@ -121,7 +142,10 @@
   - `db.products.find({ price:{$gt:100} })`
   - `db.orders.find({quantity: {$gt : 2} })`
 
-## LIKE
+</details>
+
+<details>
+  <summary><strong>Like</strong></summary>
 
 - MySQL
   - `SELECT * FROM products WHERE product_name LIKE '%Mini%';`
@@ -133,8 +157,10 @@
   - `db.products.find({product_name:{ $regex: /^Smart/ } })`
   - `db.products.find({product_name:{ $regex: /Charger$/ } })`
   - `db.customers.find({ email: { $regex: /@vimeo.com$/ } })`
+</details>
 
-## AND and OR
+<details>
+  <summary><strong>AND and OR</strong></summary>
 
 - MySQL
   - `SELECT * FROM products WHERE product_name LIKE '%Mini%' AND price > 100`
@@ -142,8 +168,10 @@
 - MongoDB
   - `db.products.find({$and: [ {product_name: {$regex: /Mini/} }, {price: {$gt:100} } ] })`
   - `db.products.find({$or: [ {product_name: {$regex: /Mini/} }, {price: {$gt:100} } ] })`
+</details>
 
-## DELETE RECORD
+<details>
+  <summary><strong>Delete Record</strong></summary>
 
 - MySQL
   - `DELETE FROM customers WHERE id = 200;`
@@ -151,8 +179,10 @@
 - MongoDB
   - `db.customers.deleteOne({"_id" : ObjectId("64b6250edd9809f1c0e52ff2")})`
   - `db.customers.deleteMany({email: {$regex: /@vimeo.com$/} })`
+</details>
 
-## UPDATE RECORD
+<details>
+<summary><strong>Update Record</strong></summary>
 
 - MySQL
   - `UPDATE products SET price = 100 WHERE id = 28;`
@@ -160,64 +190,4 @@
 - MongoDB
   - `db.products.updateOne({"_id" : ObjectId("64b78b0fdd9809f1c0e533fd")}, { $set: {price: 100}} )`
   - `db.products.updateMany({ product_name: {$regex: /Earphone/} }, { $set: {price: 59} })`
-
-
-## My Project
-
-### Table of Contents
-- [Introduction](#introduction)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [FAQ](#faq)
-- [Contributing](#contributing)
-- [License](#license)
-
-<details>
-<summary><strong>Introduction</strong></summary>
-
-Your project's introduction and overview.
-
-</details>
-
-<details>
-<summary><strong>Installation</strong></summary>
-
-Instructions for installing your project.
-
-</details>
-
-<details>
-<summary><strong>Usage</strong></summary>
-
-How to use your project and examples.
-
-</details>
-
-<details>
-<summary><strong>Configuration</strong></summary>
-
-Details about configuration options and settings.
-
-</details>
-
-<details>
-<summary><strong>FAQ</strong></summary>
-
-Frequently asked questions and their answers.
-
-</details>
-
-<details>
-<summary><strong>Contributing</strong></summary>
-
-Guidelines for contributing to your project.
-
-</details>
-
-<details>
-<summary><strong>License</strong></summary>
-
-Information about the project's license.
-
 </details>
