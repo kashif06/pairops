@@ -156,3 +156,64 @@
 - MongoDB
   - `db.products.updateOne({"_id" : ObjectId("64b78b0fdd9809f1c0e533fd")}, { $set: {price: 100}} )`
   - `db.products.updateMany({ product_name: {$regex: /Earphone/} }, { $set: {price: 59} })`
+
+
+## My Project
+
+### Table of Contents
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [FAQ](#faq)
+- [Contributing](#contributing)
+- [License](#license)
+
+<details>
+<summary><strong>Introduction</strong></summary>
+
+Your project's introduction and overview.
+
+</details>
+
+<details>
+<summary><strong>Installation</strong></summary>
+
+Instructions for installing your project.
+
+</details>
+
+<details>
+<summary><strong>Usage</strong></summary>
+
+How to use your project and examples.
+
+</details>
+
+<details>
+<summary><strong>Configuration</strong></summary>
+
+Details about configuration options and settings.
+
+</details>
+
+<details>
+<summary><strong>FAQ</strong></summary>
+
+Frequently asked questions and their answers.
+
+</details>
+
+<details>
+<summary><strong>Contributing</strong></summary>
+
+Guidelines for contributing to your project.
+
+</details>
+
+<details>
+<summary><strong>License</strong></summary>
+
+Information about the project's license.
+
+</details>
