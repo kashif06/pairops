@@ -191,3 +191,47 @@
   - `db.products.updateOne({"_id" : ObjectId("64b78b0fdd9809f1c0e533fd")}, { $set: {price: 100}} )`
   - `db.products.updateMany({ product_name: {$regex: /Earphone/} }, { $set: {price: 59} })`
 </details>
+
+<details>
+<summary><strong>Alter Table</strong></summary>
+
+- MySQL
+  - `ALTER TABLE products ADD COLUMN manufacturer VARCHAR(50) NULL AFTER description;`
+     - `SELECT * FROM products WHERE product_name LIKE '%Bluetooth%'`
+     - `UPDATE products SET manufacturer = 'Samsung' WHERE product_name LIKE '%Bluetooth%';`
+     - `SELECT * FROM products WHERE manufacturer IS NOT NULL;`
+     - `SELECT * FROM products WHERE manufacturer IS NULL;`
+- MongoDB
+  - `db.products.find({product_name: {$regex: /Bluetooth/}})`
+      - `db.products.updateMany({product_name: {$regex:/Bluetooth/} },{ $set: {manufacturer : 'Samsung'}})`
+      - `db.products.find({manufacturer: {$exists: true }})`
+      - `db.products.find({manufacturer: {$exists: false }})`
+</details>
+
+<details>
+<summary><strong>Aggregation</strong></summary>
+
+- MySQL
+  - Where   
+      - `SELECT * FROM products WHERE product_name = 'Laptop'`
+  - Like
+      - `SELECT * FROM products WHERE product_name LIKE '%Bluetooth%'`
+  - Sort
+      - `SELECT * FROM products ORDER BY price DESC`
+  - Limit
+      - `SELECT * FROM products ORDER BY price DESC LIMIT 1`
+  - Sequence
+      - `SELECT * FROM products ORDER BY price DESC LIMIT 2`
+- MongoDB
+  - Where
+      - `db.products.aggregate([{$match: {product_name: 'Laptop'}}])`
+  - Like
+      - `db.products.aggregate([{$match: {product_name: {$regex: /Bluetooth/}}}])`
+  - Sort
+      - `db.products.aggregate([{$sort: {price: -1}}])`
+  - Limit
+      - `db.products.aggregate([{$sort: {price: -1}},{$limit: 1}])`
+  - Sequence
+      - `db.products.aggregate([{$sort: {price: -1}},{$limit: 2}])`
+      - `db.products.aggregate([{$limit: 2},{$sort: {price: -1}}])`
+</details>
