@@ -223,7 +223,7 @@
   - Sequence
       - `SELECT * FROM products ORDER BY price DESC LIMIT 2`
   - Projection
-      - `SELECT * FROM products ORDER BY price DESC LIMIT 2`
+      - `SELECT name,price FROM products ORDER BY price DESC LIMIT 2`
 - MongoDB
   - Where
       - `db.products.aggregate([{$match: {name: 'Laptop'}}])`
