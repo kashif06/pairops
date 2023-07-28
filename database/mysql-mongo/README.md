@@ -32,7 +32,7 @@
 
 - MySQL
   - `CREATE TABLE customers(id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, first_name VARCHAR(50) NOT NULL, last_name VARCHAR(50) NOT NULL, email VARCHAR(100) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`
-  - `CREATE TABLE products(id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255) NOT NULL, price INT NOT NULL, description TEXT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`
+  - `CREATE TABLE products(id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, Name VARCHAR(255) NOT NULL, price INT(10) NOT NULL, description TEXT NOT NULL, category VARCHAR(100) NOT NULL, stock_quantity INT(10) UNSIGNED NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`
   - `CREATE TABLE orders(id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, customer_id INT UNSIGNED NOT NULL, product_id INT UNSIGNED NOT NULL, quantity INT NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(customer_id) REFERENCES customers(id),FOREIGN KEY(product_id) REFERENCES products(id));`
 
 - MongoDB
@@ -72,7 +72,7 @@
   - `db.getCollection("customers").insertOne({"first_name": "John","last_name":"Doe","email":"john.doe@gmail.com", 'created_at': new Date()})`
   - `db.getCollection("customers").insertOne({"first_name": "John","last_name":"Allen","email":"john.allen@gmail.com", 'created_at': new Date()})`
   - `db.getCollection("customers").insert([{"first_name": "John","last_name":"Doe","email":"john.doe@gmail.com", 'created_at': new Date()},{"first_name": "Adam","last_name":"Smith","email":"adam.smith@gmail.com", 'created_at': new Date()},])`
-  - `db.getCollection("products").insert([{"name": "Laptop","price":12000,"description":"Apple laptop", 'created_at': new Date()},{"name": "Chair","price":7000,"description":"office Chair", 'created_at': new Date()}])`
+  - `db.getCollection("products").insert([{"name": "Laptop","price":12000,"description":"Apple laptop", "category": "Electronics", "stock_quantity": 100, 'created_at': new Date()},{"name": "Chair","price":7000,"description":"office Chair", "category": "Home Office", "stock_quantity": 200, 'created_at': new Date()}])`
   - `db.getCollection('orders').insert([{ "customer_id":ObjectId("64af9a0a55296e840ec237a5"), "product_id": ObjectId("64afc0b755296e840ec237a7"),"quantity":2, 'created_at':new Date() },{ "customer_id":ObjectId("64af9a0a55296e840ec237a5"), "product_id": ObjectId("64afc0b755296e840ec237a8"),"quantity":4, 'created_at':new Date() },{ "customer_id":ObjectId("64af9a0a55296e840ec237a6"), "product_id": ObjectId("64afc0b755296e840ec237a8"),"quantity":1, 'created_at':new Date() }])`
 </details>
 
@@ -224,6 +224,16 @@
       - `SELECT * FROM products ORDER BY price DESC LIMIT 2`
   - Projection
       - `SELECT name,price FROM products ORDER BY price DESC LIMIT 2`
+      - `SELECT CONCAT(first_name,' ', last_name)AS NAME, email FROM customers;`
+      - `SELECT NAME, price, IF (price < 299, 'Affordable', 'Expensive') AS category FROM products;`
+      - `SELECT NAME, CAST(price AS CHAR) AS price_alias FROM products;`
+  - Group By
+      - `SELECT first_name, COUNT(*) FROM customers GROUP BY first_name;`
+      - `SELECT price, COUNT(*) AS total FROM products GROUP BY price;`
+  - Distinct
+      - `SELECT DISTINCT first_name FROM customers;`
+  - Duplicate
+      - `SELECT first_name, COUNT(*) AS total FROM customers GROUP BY first_name HAVING total > 1 ORDER BY first_name ASC;`
 - MongoDB
   - Where
       - `db.products.aggregate([{$match: {name: 'Laptop'}}])`
@@ -238,4 +248,14 @@
       - `db.products.aggregate([{$limit: 2},{$sort: {price: -1}}])`
   - Projection
       - `db.products.aggregate([{$sort: {price: -1}}, {$limit: 2},{ $project: {name: 1, price: 1, _id: 0}}])`
+      - `db.customers.aggregate([{ $project:{ _id:0, Name: { $concat: ["$first_name", " ", "$last_name"]}, email: 1} } ])`
+      - `db.products.aggregate([{ $project: { name: 1, price: 1, category: { $cond: { if: { $lt: [ "$price", 299 ] }, then: "Affordable", else: "Expensive" } } } }])`
+      - `db.products.aggregate([{$project: {_id: 0,name: 1,price_alias: {"$toString": "$price"}}}])`
+  - Group By
+      - `db.customers.aggregate([ {"$group": {_id: "$first_name", count: {"$sum":1}}} ])`
+      - `db.products.aggregate([{"$group": {_id: "$price", total: {$sum:1}}},{"$project": { price: "$_id",total: "$total",_id: 0 } }, {"$sort": { price: 1 }}])`
+  - Distinct
+      - `db.customers.distinct("first_name")`
+  - Duplicate
+      - `db.customers.aggregate([{ $group: { _id: "$first_name", count: { $sum: 1 } } }, { $match : { count: {$gt: 1} } }, { $project: { first_name : "$_id", count: "$count" } }, { $sort: { first_name: 1 } }])`
 </details>
