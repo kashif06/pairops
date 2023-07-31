@@ -1,5 +1,36 @@
-db.getCollection('orders').insert(
-[
-{ "customer_id":ObjectId("64b6250edd9809f1c0e52f34"), "product_id": ObjectId("64b639f1dd9809f1c0e53194"),"quantity":10, 'created_at':new Date() },
-{ "customer_id":ObjectId("64b6250edd9809f1c0e52f3e"), "product_id": ObjectId("64b639f1dd9809f1c0e531a0"),"quantity":4, 'created_at':new Date() },
-{ "customer_id":ObjectId("64b6250edd9809f1c0e52f48"), "product_id": ObjectId("64b639f1dd9809f1c0e531a6"),"quantity":11, 'created_at':new Date() }])
+const customerId1 = db.customers.findOne({email:"john.doe@example.com"},{_id:1})['_id']
+const customerId2 = db.customers.findOne({email:"william.jones@example.com"},{_id:1})['_id']
+const customerId3 = db.customers.findOne({email:"james.davis@example.com"},{_id:1})['_id']
+
+const productId1 = db.products.findOne({name:"Laptop"},{_id:1})['_id']
+const productId2 = db.products.findOne({name:"Wireless Keyboard"},{_id:1})['_id']
+const productId3 = db.products.findOne({name:"Printer"},{_id:1})['_id']
+
+
+// Step 3: Insert into "orders" collection
+db.orders.insertMany([
+  {
+    customer_id: customerId1,
+    product_id: productId1,
+    quantity: 1,
+    created_at: new Date(),
+  },
+  {
+    customer_id: customerId2,
+    product_id: productId2,
+    quantity: 1,
+    created_at: new Date(),
+  },
+  {
+    customer_id: customerId3,
+    product_id: productId3,
+    quantity: 2,
+    created_at: new Date(),
+  },
+  {
+    customer_id: customerId1,
+    product_id: productId3,
+    quantity: 1,
+    created_at: new Date(),
+  }
+]);

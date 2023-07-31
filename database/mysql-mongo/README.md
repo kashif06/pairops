@@ -234,6 +234,11 @@
       - `SELECT DISTINCT first_name FROM customers;`
   - Duplicate
       - `SELECT first_name, COUNT(*) AS total FROM customers GROUP BY first_name HAVING total > 1 ORDER BY first_name ASC;`
+  - Joins
+      - Left Outer Join
+          - `SELECT * FROM customers LEFT OUTER JOIN orders ON customers.id= orders.customer_id`
+      - Inner Join
+          - `SELECT * FROM customers INNER JOIN orders ON customers.id= orders.customer_id`
 - MongoDB
   - Where
       - `db.products.aggregate([{$match: {name: 'Laptop'}}])`
@@ -258,4 +263,9 @@
       - `db.customers.distinct("first_name")`
   - Duplicate
       - `db.customers.aggregate([{ $group: { _id: "$first_name", count: { $sum: 1 } } }, { $match : { count: {$gt: 1} } }, { $project: { first_name : "$_id", count: "$count" } }, { $sort: { first_name: 1 } }])`
+  - Joins
+      - Left Outer Join
+          - `db.customers.aggregate([{ $lookup: { from:"orders", localField:"_id", foreignField:"customer_id", as:"orders" } }])`
+      - Inner Join
+          - `db.customers.aggregate([{ $lookup: { from:"orders", localField:"_id", foreignField:"customer_id", as:"orders" }},{ $match: {orders: { $ne: []}}}])`
 </details>
