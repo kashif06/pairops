@@ -269,3 +269,28 @@
       - Inner Join
           - `db.customers.aggregate([{ $lookup: { from:"orders", localField:"_id", foreignField:"customer_id", as:"orders" }},{ $match: {orders: { $ne: []}}}])`
 </details>
+
+<details>
+<summary><strong>Indexes</strong></summary>
+
+- MySQL
+  - Single Field Index
+      - `SELECT email FROM customers WHERE email  = 'ava.reed@example.com';`
+      - `EXPLAIN SELECT email FROM customers WHERE email  = 'ava.reed@example.com';`
+      - `CREATE INDEX idx_email ON customers(email);`
+      - `EXPLAIN SELECT email FROM customers WHERE email  = 'ava.reed@example.com';`
+  - Compound Index
+      - `EXPLAIN SELECT first_name, last_name FROM customers WHERE first_name = 'ava' AND last_name = 'reed';`
+      - `CREATE INDEX idx_first_name_last_name ON customers(first_name, last_name);`
+      - `EXPLAIN SELECT last_name FROM customers WHERE first_name = 'ava' AND last_name = 'reed';`
+- MongoDB
+  - Single Field Index
+      - `db.customers.find({"email" : "ava.reed@example.com"},{email: 1})`
+      - `db.customers.find({"email" : "ava.reed@example.com"},{email: 1}).explain("executionStats");`
+      - `db.customers.createIndex({"email": 1});`
+      - `db.customers.find({"email" : "emily.russell@example.com"},{email: 1}).explain("executionStats");`
+  - Compound Index
+      - `db.customers.find( {$and: [{ "first_name" : "Ava"},{"last_name" : "Reed"}]}, {first_name: 1, last_name: 1}).explain("executionStats")`
+      - `db.customers.createIndex({first_name: 1,last_name: 1})`
+      - `db.customers.find( {"last_name" : "Reed"}, {first_name: 1, last_name: 1}).explain("executionStats")`
+</details>
