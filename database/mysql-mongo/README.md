@@ -32,7 +32,7 @@
 
 - MySQL
   - `CREATE TABLE customers(id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, first_name VARCHAR(50) NOT NULL, last_name VARCHAR(50) NOT NULL, email VARCHAR(100) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`
-  - `CREATE TABLE products(id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, Name VARCHAR(255) NOT NULL, price INT(10) NOT NULL, description TEXT NOT NULL, category VARCHAR(100) NOT NULL, stock_quantity INT(10) UNSIGNED NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`
+  - `CREATE TABLE products(id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, Name VARCHAR(255) NOT NULL, price INT(10) NOT NULL, description TEXT NOT NULL, category VARCHAR(100) NOT NULL, stock_quantity INT(10) UNSIGNED default 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`
   - `CREATE TABLE orders(id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, customer_id INT UNSIGNED NOT NULL, product_id INT UNSIGNED NOT NULL, quantity INT NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(customer_id) REFERENCES customers(id),FOREIGN KEY(product_id) REFERENCES products(id));`
 
 - MongoDB
@@ -283,6 +283,9 @@
       - `EXPLAIN SELECT first_name, last_name FROM customers WHERE first_name = 'ava' AND last_name = 'reed';`
       - `CREATE INDEX idx_first_name_last_name ON customers(first_name, last_name);`
       - `EXPLAIN SELECT last_name FROM customers WHERE first_name = 'ava' AND last_name = 'reed';`
+  - FULLTEXT Index
+      - `CREATE FULLTEXT INDEX idx_name_description ON products(NAME, description)`
+      - `SELECT id, NAME, price, description, MATCH(NAME, description) AGAINST('bluetooth') AS relevance FROM products WHERE MATCH(NAME, description) AGAINST('bluetooth');`
 - MongoDB
   - Single Field Index
       - `db.customers.find({"email" : "ava.reed@example.com"},{email: 1})`
@@ -293,4 +296,26 @@
       - `db.customers.find( {$and: [{ "first_name" : "Ava"},{"last_name" : "Reed"}]}, {first_name: 1, last_name: 1}).explain("executionStats")`
       - `db.customers.createIndex({first_name: 1,last_name: 1})`
       - `db.customers.find( {"last_name" : "Reed"}, {first_name: 1, last_name: 1}).explain("executionStats")`
+  - FULLTEXT Index
+      - `db.products.createIndex({name: "text", description: "text"})`
+      - `db.products.find({$text: {$search: '65'}})`
+      - `db.products.find({$text: {$search: "bluetooth"}}).explain("executionStats");`
+</details>
+
+<details>
+<summary><strong>Views</strong></summary>
+
+- MySQL
+  - `CREATE VIEW non_selling_products AS SELECT * FROM products WHERE price < 50 AND stock_quantity > 200;`
+- MongoDB
+  - `SELECT email FROM customers WHERE email  = 'ava.reed@example.com';`
+</details>
+
+<details>
+<summary><strong>Transactions</strong></summary>
+
+- MySQL
+  - `CREATE VIEW non_selling_products AS SELECT * FROM products WHERE price < 50 AND stock_quantity > 200;`
+- MongoDB
+  - `SELECT email FROM customers WHERE email  = 'ava.reed@example.com';`
 </details>
